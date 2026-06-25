@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إطار تقييم المحتوى العربي المولّد بالذكاء الاصطناعي</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    direction: rtl;
+    line-height: 1.8;
+  }
+
+  /* COVER PAGE */
+  .cover {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 40px;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(99,102,241,0.15) 0%, transparent 70%);
+  }
+
+  .cover-badge {
+    background: rgba(99,102,241,0.3);
+    border: 1px solid rgba(99,102,241,0.6);
+    color: #a5b4fc;
+    padding: 8px 24px;
+    border-radius: 50px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover h1 {
+    font-size: 42px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+  }
+
+  .cover h1 span {
+    color: #818cf8;
+  }
+
+  .cover-subtitle {
+    font-size: 18px;
+    color: #94a3b8;
+    margin-bottom: 60px;
+    max-width: 550px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    margin: 30px auto;
+    border-radius: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-author {
+    position: relative;
+    z-index: 1;
+    margin-top: 20px;
+  }
+
+  .cover-author .name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #e2e8f0;
+  }
+
+  .cover-author .title {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+
+  .cover-meta {
+    position: absolute;
+    bottom: 40px;
+    display: flex;
+    gap: 40px;
+    z-index: 1;
+    color: #475569;
+    font-size: 13px;
+  }
+
+  .cover-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* CONTENT PAGES */
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 50px;
+    page-break-after: always;
+  }
+
+  .page:last-child {
+    page-break-after: auto;
+  }
+
+  /* Section Header */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eef2ff;
+    color: #6366f1;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  .section-title {
+    font-size: 32px;
+    font-weight: 900;
+    color: #0f172a;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .section-title span {
+    color: #6366f1;
+  }
+
+  .section-intro {
+    font-size: 16px;
+    color: #475569;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #f1f5f9;
+    line-height: 2;
+  }
+
+  /* Problem Cards */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 30px 0;
+  }
+
+  .problem-card {
+    background: #fafafa;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    border-right: 4px solid #6366f1;
+    transition: all 0.2s;
+  }
+
+  .problem-card .icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .problem-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+  }
+
+  .problem-card p {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.8;
+  }
+
+  /* Stats Row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 40px 0;
+  }
+
+  .stat-box {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 16px;
+    padding: 28px;
+    text-align: center;
+    color: white;
+  }
+
+  .stat-box .number {
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-box .label {
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  /* Framework Criteria */
+  .criteria-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 30px 0;
+  }
+
+  .criterion {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 28px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+    align-items: start;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .criterion-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 900;
+    flex-shrink: 0;
+    color: white;
+  }
+
+  .cn-1 { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+  .cn-2 { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+  .cn-3 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+  .cn-4 { background: linear-gradient(135deg, #10b981, #059669); }
+  .cn-5 { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+  .criterion-content h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+  }
+
+  .criterion-content p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.9;
+    margin-bottom: 12px;
+  }
+
+  .sub-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .sub-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: #475569;
+  }
+
+  .criterion-score {
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .criterion-score .pts {
+    font-size: 24px;
+    font-weight: 900;
+    color: #6366f1;
+  }
+
+  .criterion-score .pts-label {
+    font-size: 11px;
+    color: #94a3b8;
+  }
+
+  /* Scoring Table */
+  .score-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+
+  .score-table th {
+    background: linear-gradient(135deg, #0f0c29, #302b63);
+    color: #ffffff;
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+  }
+
+  .score-table td {
+    padding: 14px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: right;
+  }
+
+  .score-table tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+
+  .score-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .badge-green { background: #dcfce7; color: #15803d; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-yellow { background: #fef9c3; color: #a16207; }
+  .badge-orange { background: #ffedd5; color: #c2410c; }
+  .badge-red { background: #fee2e2; color: #b91c1c; }
+
+  /* Case Study */
+  .case-study {
+    background: #fafafa;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 24px 0;
+  }
+
+  .case-study-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .case-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: #eef2ff;
+  }
+
+  .case-study-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+  }
+
+  .case-study-header span {
+    font-size: 13px;
+    color: #6366f1;
+    font-weight: 600;
+  }
+
+  .score-breakdown {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .score-item {
+    text-align: center;
+  }
+
+  .score-item .score-bar-wrap {
+    height: 80px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .score-bar {
+    width: 30px;
+    border-radius: 6px 6px 0 0;
+    background: linear-gradient(to top, #6366f1, #8b5cf6);
+  }
+
+  .score-item .score-num {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+  }
+
+  .score-item .score-name {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-top: 2px;
+  }
+
+  .total-score {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 12px;
+    color: white;
+    margin-top: 20px;
+  }
+
+  .total-score .big {
+    font-size: 40px;
+    font-weight: 900;
+  }
+
+  .total-score .small {
+    font-size: 14px;
+    opacity: 0.85;
+  }
+
+  /* Recommendations */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 30px 0;
+  }
+
+  .rec-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .rec-card .rec-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .rec-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+  }
+
+  .rec-card ul {
+    padding-right: 16px;
+  }
+
+  .rec-card ul li {
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 6px;
+    line-height: 1.7;
+  }
+
+  /* About Author */
+  .author-card {
+    background: linear-gradient(135deg, #0f0c29, #302b63);
+    border-radius: 24px;
+    padding: 40px;
+    color: white;
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .author-avatar {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 16px;
+  }
+
+  .author-card h2 {
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .author-card .role {
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .author-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .author-tag {
+    background: rgba(99,102,241,0.3);
+    border: 1px solid rgba(99,102,241,0.5);
+    color: #a5b4fc;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+  }
+
+  .author-tagline {
+    font-size: 16px;
+    color: #cbd5e1;
+    font-style: italic;
+  }
+
+  /* TOC */
+  .toc {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 36px;
+    margin: 30px 0;
+  }
+
+  .toc-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: 15px;
+  }
+
+  .toc-item:last-child { border-bottom: none; }
+
+  .toc-item .toc-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #334155;
+  }
+
+  .toc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #6366f1;
+    flex-shrink: 0;
+  }
+
+  .toc-item .toc-page {
+    color: #6366f1;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* Callout box */
+  .callout {
+    background: #eef2ff;
+    border-right: 4px solid #6366f1;
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .callout p {
+    font-size: 15px;
+    color: #3730a3;
+    line-height: 1.9;
+  }
+
+  /* Page number */
+  .page-num {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  @media print {
+    .page { page-break-after: always; }
+    .cover { page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+  <div class="cover-badge">📄 White Paper · 2025</div>
+  <h1>إطار تقييم المحتوى العربي<br><span>المولّد بالذكاء الاصطناعي</span></h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">منهجية علمية لقياس جودة المحتوى الرقمي العربي عبر خمسة معايير أساسية</p>
+  <div class="cover-author">
+    <div class="name">علاء مسعود</div>
+    <div class="title">متخصص في محتوى الذكاء الاصطناعي · ماجستير علم نفس الإعلام</div>
+  </div>
+  <div class="cover-meta">
+    <span>🗓 2025</span>
+    <span>📄 White Paper</span>
+    <span>🌐 Arabic AI Framework v1.0</span>
+  </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="page">
+  <div class="section-label">📋 المحتويات</div>
+  <h2 class="section-title">فهرس <span>التقرير</span></h2>
+
+  <div class="toc">
+    <div class="toc-title">محتويات التقرير</div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>المقدمة ولماذا نحتاج هذا الإطار</div>
+      <span class="toc-page">٠٣</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>حجم المشكلة — أرقام ووقائع</div>
+      <span class="toc-page">٠٤</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>المعيار الأول: الدقة المعلوماتية</div>
+      <span class="toc-page">٠٥</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>المعيار الثاني: الأصالة الثقافية</div>
+      <span class="toc-page">٠٥</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>المعيار الثالث: وضوح الهوية</div>
+      <span class="toc-page">٠٦</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>المعيار الرابع: الجودة اللغوية</div>
+      <span class="toc-page">٠٦</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>المعيار الخامس: الأثر النفسي</div>
+      <span class="toc-page">٠٧</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>نظام التسجيل والتقييم (من 100)</div>
+      <span class="toc-page">٠٨</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>دراسات حالة تطبيقية</div>
+      <span class="toc-page">٠٩</span>
+    </div>
+    <div class="toc-item">
+      <div class="toc-left"><div class="toc-dot"></div>التوصيات والخاتمة</div>
+      <span class="toc-page">١٠</span>
+    </div>
+  </div>
+  <div class="page-num">٢</div>
+</div>
+
+<!-- INTRODUCTION PAGE -->
+<div class="page">
+  <div class="section-label">01 · المقدمة</div>
+  <h2 class="section-title">لماذا <span>نحتاج هذا الإطار؟</span></h2>
+  <p class="section-intro">
+    مع تصاعد استخدام أدوات الذكاء الاصطناعي في إنتاج المحتوى الرقمي العربي، أصبح من الضروري وجود منهجية علمية واضحة لقياس جودة هذا المحتوى وضمان موثوقيته وملاءمته الثقافية.
+    هذا الإطار هو الأول من نوعه بالعربية، ويجمع بين متطلبات الدقة الصحفية، والخصوصية الثقافية، والمسؤولية الأخلاقية في عصر الذكاء الاصطناعي.
+  </p>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="icon">📰</div>
+      <h3>تحديات المحتوى الإخباري</h3>
+      <p>انتشار الأخبار المولّدة بالذكاء الاصطناعي دون توضيح مصدرها للقارئ العربي، مما يهدد الثقة في وسائل الإعلام الرقمية.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🌍</div>
+      <h3>غياب الخصوصية الثقافية</h3>
+      <p>نماذج الذكاء الاصطناعي كثيراً ما تُنتج محتوى ذا طابع غربي لا يعكس القيم والسياق الاجتماعي للمجتمعات العربية.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🔤</div>
+      <h3>ضعف الجودة اللغوية</h3>
+      <p>إنتاج محتوى عربي ركيك أو يخلط بين اللهجات والفصحى بشكل غير مناسب، مما يقلل من مصداقية المنتج الرقمي.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🧠</div>
+      <h3>غياب أُطر التقييم العربية</h3>
+      <p>كل أُطر تقييم محتوى الذكاء الاصطناعي الموجودة مكتوبة بالإنجليزية ولا تأخذ بعين الاعتبار خصوصية الجمهور العربي.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>💡 <strong>الهدف من هذا الإطار:</strong> تزويد المنتجين والمؤسسات الإعلامية العربية بأداة عملية وقابلة للتطبيق لضمان جودة المحتوى المولّد بالذكاء الاصطناعي قبل نشره.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="number">420M</div>
+      <div class="label">متحدث عربي حول العالم</div>
+    </div>
+    <div class="stat-box">
+      <div class="number">%3</div>
+      <div class="label">فقط من محتوى الإنترنت بالعربية</div>
+    </div>
+    <div class="stat-box">
+      <div class="number">0</div>
+      <div class="label">إطار تقييم عربي متخصص سابق</div>
+    </div>
+  </div>
+  <div class="page-num">٣</div>
+</div>
+
+<!-- FRAMEWORK CRITERIA -->
+<div class="page">
+  <div class="section-label">02 · الإطار</div>
+  <h2 class="section-title">المعايير <span>الخمسة</span></h2>
+  <p class="section-intro">يعتمد الإطار على خمسة معايير أساسية تغطي أبعاد الجودة المختلفة للمحتوى العربي المولّد بالذكاء الاصطناعي، وتُشكّل مجتمعةً منظومة تقييم متكاملة.</p>
+
+  <div class="criteria-list">
+
+    <div class="criterion">
+      <div class="criterion-number cn-1">١</div>
+      <div class="criterion-content">
+        <h3>الدقة المعلوماتية</h3>
+        <p>يقيس هذا المعيار مدى صحة المعلومات الواردة في المحتوى وقابليتها للتحقق، بما في ذلك الأرقام والإحصاءات والاقتباسات والادعاءات الواقعية.</p>
+        <div class="sub-items">
+          <span class="sub-item">✓ التحقق من المصادر</span>
+          <span class="sub-item">✓ دقة الأرقام والتواريخ</span>
+          <span class="sub-item">✓ عدم الهلوسة (Hallucination)</span>
+          <span class="sub-item">✓ الإسناد الصحيح</span>
+        </div>
+      </div>
+      <div class="criterion-score">
+        <div class="pts">٢٥</div>
+        <div class="pts-label">نقطة</div>
+      </div>
+    </div>
+
+    <div class="criterion">
+      <div class="criterion-number cn-2">٢</div>
+      <div class="criterion-content">
+        <h3>الأصالة الثقافية</h3>
+        <p>يقيس مدى ملاءمة المحتوى للسياق الثقافي والاجتماعي العربي، وتجنبه للمركزية الغربية أو الحساسيات غير المناسبة.</p>
+        <div class="sub-items">
+          <span class="sub-item">✓ ملاءمة القيم الاجتماعية</span>
+          <span class="sub-item">✓ تجنب الصور النمطية</span>
+          <span class="sub-item">✓ مراعاة التنوع العربي</span>
+          <span class="sub-item">✓ السياق الديني والتقاليد</span>
+        </div>
+      </div>
+      <div class="criterion-score">
+        <div class="pts">٢٠</div>
+        <div class="pts-label">نقطة</div>
+      </div>
+    </div>
+
+    <div class="criterion">
+      <div class="criterion-number cn-3">٣</div>
+      <div class="criterion-content">
+        <h3>وضوح الهوية</h3>
+        <p>يقيس مدى شفافية المحتوى بشأن طبيعته — هل هو مولّد بالذكاء الاصطناعي أم بشري؟ وهل يُفصح عن ذلك بوضوح للمتلقي؟</p>
+        <div class="sub-items">
+          <span class="sub-item">✓ الإفصاح عن دور الذكاء الاصطناعي</span>
+          <span class="sub-item">✓ عدم التضليل</span>
+          <span class="sub-item">✓ وضوح المصدر البشري</span>
+          <span class="sub-item">✓ الأمانة الأكاديمية</span>
+        </div>
+      </div>
+      <div class="criterion-score">
+        <div class="pts">٢٠</div>
+        <div class="pts-label">نقطة</div>
+      </div>
+    </div>
+
+    <div class="criterion">
+      <div class="criterion-number cn-4">٤</div>
+      <div class="criterion-content">
+        <h3>الجودة اللغوية</h3>
+        <p>يقيس سلامة اللغة العربية من حيث النحو والأسلوب والملاءمة بين المستوى اللغوي المستخدم والجمهور المستهدف.</p>
+        <div class="sub-items">
+          <span class="sub-item">✓ صحة قواعد النحو</span>
+          <span class="sub-item">✓ ثبات مستوى اللغة</span>
+          <span class="sub-item">✓ سلاسة القراءة</span>
+          <span class="sub-item">✓ ملاءمة اللهجة للسياق</span>
+        </div>
+      </div>
+      <div class="criterion-score">
+        <div class="pts">٢٠</div>
+        <div class="pts-label">نقطة</div>
+      </div>
+    </div>
+
+    <div class="criterion">
+      <div class="criterion-number cn-5">٥</div>
+      <div class="criterion-content">
+        <h3>الأثر النفسي على الجمهور</h3>
+        <p>يقيس التأثير الوجداني والمعرفي للمحتوى على المتلقي، بما في ذلك السلامة النفسية، وتجنب المحتوى المثير للقلق أو التضليل العاطفي.</p>
+        <div class="sub-items">
+          <span class="sub-item">✓ السلامة النفسية</span>
+          <span class="sub-item">✓ تجنب المحتوى المضلل عاطفياً</span>
+          <span class="sub-item">✓ الأثر المعرفي الإيجابي</span>
+          <span class="sub-item">✓ التوازن العاطفي</span>
+        </div>
+      </div>
+      <div class="criterion-score">
+        <div class="pts">١٥</div>
+        <div class="pts-label">نقطة</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="page-num">٤</div>
+</div>
+
+<!-- SCORING TABLE -->
+<div class="page">
+  <div class="section-label">03 · التقييم</div>
+  <h2 class="section-title">نظام <span>التسجيل</span></h2>
+  <p class="section-intro">يُستخدم نظام النقاط التالي لتصنيف المحتوى بناءً على مجموع الدرجات، مما يوفر حكماً واضحاً وقابلاً للقياس على جودته.</p>
+
+  <table class="score-table">
+    <thead>
+      <tr>
+        <th>التصنيف</th>
+        <th>النطاق</th>
+        <th>المعنى</th>
+        <th>التوصية</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-green">ممتاز</span></td>
+        <td><strong>٩٠ – ١٠٠</strong></td>
+        <td>محتوى عالي الجودة يلتزم بجميع المعايير</td>
+        <td>جاهز للنشر مباشرة</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-blue">جيد جداً</span></td>
+        <td><strong>٧٥ – ٨٩</strong></td>
+        <td>محتوى جيد مع ملاحظات طفيفة</td>
+        <td>مراجعة بسيطة ثم نشر</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-yellow">مقبول</span></td>
+        <td><strong>٦٠ – ٧٤</strong></td>
+        <td>محتوى يحتاج تحسينات واضحة</td>
+        <td>تحرير قبل النشر</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-orange">ضعيف</span></td>
+        <td><strong>٤٥ – ٥٩</strong></td>
+        <td>مشاكل جوهرية في عدة معايير</td>
+        <td>إعادة كتابة جزئية</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-red">غير مقبول</span></td>
+        <td><strong>أقل من ٤٥</strong></td>
+        <td>محتوى يفشل في معايير أساسية</td>
+        <td>رفض وإعادة الإنتاج</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p>⚠️ <strong>قاعدة النقطة الصفرية:</strong> إذا حصل المحتوى على صفر في معيار الدقة المعلوماتية أو وضوح الهوية، يُعتبر المحتوى غير مقبول تلقائياً بغض النظر عن مجموع الدرجات الكلي.</p>
+  </div>
+
+  <div class="page-num">٥</div>
+</div>
+
+<!-- CASE STUDIES -->
+<div class="page">
+  <div class="section-label">04 · التطبيق</div>
+  <h2 class="section-title">دراسات <span>حالة تطبيقية</span></h2>
+  <p class="section-intro">لتوضيح كيفية تطبيق الإطار، نستعرض هنا ثلاث نماذج من المحتوى العربي المولّد بالذكاء الاصطناعي مع تقييمها الكامل.</p>
+
+  <!-- Case 1 -->
+  <div class="case-study">
+    <div class="case-study-header">
+      <div class="case-icon">📱</div>
+      <div>
+        <h3>حالة ١: تغريدة إخبارية عن الذكاء الاصطناعي</h3>
+        <span>نوع المحتوى: خبر قصير · المنصة: تويتر/X</span>
+      </div>
+    </div>
+    <div class="score-breakdown">
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:84%"></div></div>
+        <div class="score-num">٢١/٢٥</div>
+        <div class="score-name">الدقة</div>
+      </div>
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:70%"></div></div>
+        <div class="score-num">١٤/٢٠</div>
+        <div class="score-name">الثقافة</div>
+      </div>
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:90%"></div></div>
+        <div class="score-num">١٨/٢٠</div>
+        <div class="score-name">الهوية</div>
+      </div>
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:80%"></div></div>
+        <div class="score-num">١٦/٢٠</div>
+        <div class="score-name">اللغة</div>
+      </div>
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:85%"></div></div>
+        <div class="score-num">١٣/١٥</div>
+        <div class="score-name">الأثر</div>
+      </div>
+    </div>
+    <div class="total-score">
+      <div class="big">٨٢/١٠٠</div>
+      <div class="small"><span class="badge badge-blue" style="background:rgba(255,255,255,0.2);color:white;">جيد جداً</span> · يحتاج مراجعة ثقافية طفيفة قبل النشر</div>
+    </div>
+  </div>
+
+  <!-- Case 2 -->
+  <div class="case-study">
+    <div class="case-study-header">
+      <div class="case-icon">📝</div>
+      <div>
+        <h3>حالة ٢: مقال تعليمي عن أدوات الذكاء الاصطناعي</h3>
+        <span>نوع المحتوى: محتوى تعليمي · المنصة: فيسبوك</span>
+      </div>
+    </div>
+    <div class="score-breakdown">
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:64%"></div></div>
+        <div class="score-num">١٦/٢٥</div>
+        <div class="score-name">الدقة</div>
+      </div>
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:90%"></div></div>
+        <div class="score-num">١٨/٢٠</div>
+        <div class="score-name">الثقافة</div>
+      </div>
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:50%"></div></div>
+        <div class="score-num">١٠/٢٠</div>
+        <div class="score-name">الهوية</div>
+      </div>
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:85%"></div></div>
+        <div class="score-num">١٧/٢٠</div>
+        <div class="score-name">اللغة</div>
+      </div>
+      <div class="score-item">
+        <div class="score-bar-wrap"><div class="score-bar" style="height:73%"></div></div>
+        <div class="score-num">١١/١٥</div>
+        <div class="score-name">الأثر</div>
+      </div>
+    </div>
+    <div class="total-score" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+      <div class="big">٧٢/١٠٠</div>
+      <div class="small"><span style="background:rgba(255,255,255,0.2);color:white;padding:4px 12px;border-radius:50px;font-size:12px;">مقبول</span> · ضعف في الإفصاح عن دور الذكاء الاصطناعي + أرقام تحتاج توثيق</div>
+    </div>
+  </div>
+
+  <div class="page-num">٦</div>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<div class="page">
+  <div class="section-label">05 · التوصيات</div>
+  <h2 class="section-title">توصيات <span>عملية</span></h2>
+  <p class="section-intro">بناءً على الإطار ودراسات الحالة، نقدم مجموعة من التوصيات الموجهة للمنتجين الرقميين والمؤسسات الإعلامية العربية.</p>
+
+  <div class="rec-grid">
+    <div class="rec-card">
+      <div class="rec-icon">✅</div>
+      <h3>للمنتجين الرقميين</h3>
+      <ul>
+        <li>اعتمد قائمة تحقق (Checklist) بناءً على المعايير الخمسة</li>
+        <li>أفصح دائماً عن استخدامك للذكاء الاصطناعي في الإنتاج</li>
+        <li>تحقق من الأرقام والإحصاءات من مصادر أولية</li>
+        <li>راجع المحتوى بعيون ثقافية قبل النشر</li>
+        <li>اطلب تغذية راجعة من جمهورك دورياً</li>
+      </ul>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">🏛️</div>
+      <h3>للمؤسسات الإعلامية</h3>
+      <ul>
+        <li>تبنَّ هذا الإطار كمعيار داخلي لضبط الجودة</li>
+        <li>دَرِّب المحررين على تطبيق المعايير الخمسة</li>
+        <li>أنشئ لجنة لمراجعة المحتوى الذكي قبل النشر</li>
+        <li>وثِّق كل حالة استخدام للذكاء الاصطناعي</li>
+      </ul>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">🔬</div>
+      <h3>للباحثين والأكاديميين</h3>
+      <ul>
+        <li>أجرِ دراسات ميدانية لاختبار فاعلية الإطار</li>
+        <li>طوِّر أدوات رقمية لأتمتة التقييم</li>
+        <li>وسِّع الإطار ليشمل محتوى الفيديو والصوت</li>
+        <li>أنشئ قاعدة بيانات عربية للمحتوى المُقيَّم</li>
+      </ul>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">📢</div>
+      <h3>للمنظمات والجمعيات</h3>
+      <ul>
+        <li>اعتمد هذا الإطار كمعيار عربي موحد</li>
+        <li>أطلق برامج اعتماد للمنتجين الملتزمين بالمعايير</li>
+        <li>نظِّم ورش عمل لنشر الوعي بجودة المحتوى</li>
+        <li>ادعم بحوث تطوير الإطار مستقبلاً</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Author Bio -->
+  <div class="author-card">
+    <div class="author-avatar">ع</div>
+    <h2>علاء مسعود</h2>
+    <div class="role">متخصص في محتوى الذكاء الاصطناعي العربي · دمشق، سوريا</div>
+    <div class="author-tags">
+      <span class="author-tag">ماجستير علم نفس الإعلام</span>
+      <span class="author-tag">صحفي سابق</span>
+      <span class="author-tag">AI Content Creator</span>
+      <span class="author-tag">Anthropic Certified</span>
+      <span class="author-tag">أحوّل الذكاء الاصطناعي إلى محتوى عربي مفهوم</span>
+    </div>
+    <div class="author-tagline">
+      "هدفي أن أكون المرجع الأول للمحتوى العربي في عالم الذكاء الاصطناعي"
+    </div>
+  </div>
+
+  <div class="page-num">٧</div>
+</div>
+
+</body>
+</html>
